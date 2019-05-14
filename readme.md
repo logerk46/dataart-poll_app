@@ -7,6 +7,5 @@
     docke-compose up -d
     docker-compose exec php php /var/www/artisan key:generate
     docker-compose exec php php /var/www/artisan config:cache
-    docker-compose exec php php /var/www/artisan make:auth
     docker-compose exec php php /var/www/artisan migrate
   Go to 127.0.0.1:8080
