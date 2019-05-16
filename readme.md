@@ -3,6 +3,7 @@
 
 # How to start
     cp env.example .env
+    composer update
     docker-compose build
     docke-compose up -d
     docker-compose exec php php /var/www/artisan key:generate
