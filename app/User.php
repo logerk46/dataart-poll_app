@@ -2,10 +2,12 @@
 
 namespace App;
 
+use App\Poll;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -46,4 +48,10 @@ class User extends Authenticatable
     {
         return [];
     }
+
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
+    }
+
 }

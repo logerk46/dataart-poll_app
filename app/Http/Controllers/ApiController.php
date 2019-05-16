@@ -51,7 +51,6 @@ class ApiController extends Controller
     }
 
 
-    //todo request validation
     public function logout(Request $request)
     {
         $this->validate($request, [
