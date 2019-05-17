@@ -23,8 +23,7 @@ class Poll extends Model
     public function votes()
     {
         return $this->hasManyThrough(
-            'App\Vote', 'App\PollOption',
-            'poll_id', 'id', 'poll_id', 'poll_id');
+            'App\Vote', 'App\PollOption');
     }
 
     public function owner()

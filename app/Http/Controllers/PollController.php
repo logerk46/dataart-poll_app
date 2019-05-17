@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Vote;
 use App\Poll;
 use JWTAuth;
 use Validator;
@@ -27,7 +28,7 @@ class PollController extends Controller
 
     public function show(Poll $poll)
     {
-        if ($this->user()->id !== $poll->owner) {
+        if ($this->user->id !== $poll->owner) {
             return response()->json([
                 'sucess' => false,
                 'message' => "You can't get access"
@@ -49,7 +50,7 @@ class PollController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'sucess' => false,
-                'message' => 'validation error',
+                'message' => 'Validation error',
             ], 422);
         }
 
@@ -100,6 +101,35 @@ class PollController extends Controller
             ], 201);
         }
 
+    }
+
+    public function vote(Request $request, Poll $poll)
+    {
+        $validator = Validator::make($request->all(), [
+            'poll_option_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'sucess' => false,
+                'message' => 'Validation error',
+            ], 422);
+        }
+
+        $user_id = $this->user->id;
+        $votes = $poll->votes;
+        if ($votes->contains('user_id', $user_id)) {
+            return response()->json([
+                'sucess' => false,
+                'message' => 'You have already voted',
+            ], 422);
+        }
+
+        $vote = new Vote();
+        $vote->poll_option_id = $request->input('poll_option_id');
+        $vote->user_id = $user_id;
+        $vote->save();
+        return new PollResource($poll);
     }
 }
 
