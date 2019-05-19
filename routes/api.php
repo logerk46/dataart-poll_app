@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
  
     Route::get('user', 'ApiController@getAuthUser');
 
+    Route::get('/polls/{poll}', 'PollController@show');
     Route::get('/polls', 'PollController@index');
     Route::post('/polls/create', 'PollController@store');
     Route::post('/polls/{poll}/', 'PollController@saveOptions');
